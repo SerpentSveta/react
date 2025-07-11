@@ -1,10 +1,6 @@
-import { Component } from 'react';
 import './Button.css';
-
-type ButtonProps = {
-  onClick: () => void;
-  children: string;
-};
+import { Component } from 'react';
+import type { ButtonProps } from '../../services/types';
 
 export class Button extends Component<ButtonProps> {
   render() {
