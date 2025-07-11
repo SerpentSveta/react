@@ -6,6 +6,7 @@
 }
 
 .search-input {
+  max-width: 150px;
   padding: 0.7rem 2rem;
   border-radius: 5px;
   border: 1px solid #d1e25f;
@@ -14,4 +15,10 @@
 .search-input:focus-visible {
   border: 1px solid #10b5d0;
   outline: none;
+}
+
+@media (max-width: 450px) {
+  .search-input {
+    padding: 0.7rem 1rem;
+  }
 }
