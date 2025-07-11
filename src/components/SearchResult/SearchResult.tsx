@@ -1,9 +1,14 @@
+import './SearchResult.css';
 import { Component } from 'react';
 import type { Props } from '../../services/types';
 
 export class SearchResult extends Component<Props> {
   render() {
     const { results } = this.props;
+
+    if (results === null) {
+      return null;
+    }
 
     if (results.length === 0) {
       return <p>Nothing was found</p>;
