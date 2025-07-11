@@ -1,0 +1,23 @@
+.result-list {
+  margin: 0 auto;
+  padding: 0;
+  padding-inline-start: 0;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.char-image {
+  width: 200px;
+}
