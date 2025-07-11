@@ -5,6 +5,7 @@ import { Button } from '../Button/Button';
 import type { SearchState } from '../../services/types';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { Spinner } from '../Spinner/Spinner';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 
 export class Search extends Component {
   state: SearchState = {
@@ -36,8 +37,10 @@ export class Search extends Component {
         `https://rickandmortyapi.com/api/character/?name=${this.state.name}&page=1`
       );
       const data = await response.json();
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       this.setState({ results: data.results || [] });
-      console.log(data.results);
     } catch (error) {
       console.error('Error receive:', error);
       this.setState({ results: [] });
@@ -61,11 +64,13 @@ export class Search extends Component {
           <Button onClick={this.sendRequest}>Search</Button>
         </form>
         <h2>Results</h2>
-        {this.state.loading ? (
-          <Spinner />
-        ) : (
-          <SearchResult results={this.state.results} />
-        )}
+        <ErrorBoundary>
+          {this.state.loading ? (
+            <Spinner />
+          ) : (
+            <SearchResult results={this.state.results} />
+          )}
+        </ErrorBoundary>
       </section>
     );
   }

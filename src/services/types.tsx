@@ -1,3 +1,5 @@
+import type { ReactNode, CSSProperties } from 'react';
+
 export type Character = {
   id: number;
   name: string;
@@ -10,6 +12,10 @@ export type SearchState = {
   loading: boolean;
 };
 
+export type ErrorSearchResult = {
+  hasError: boolean;
+};
+
 export type Props = {
   results: Character[] | null;
 };
@@ -17,4 +23,13 @@ export type Props = {
 export type ButtonProps = {
   onClick: () => void;
   children: string;
+  style?: CSSProperties;
+};
+
+export type ErrorProps = {
+  children: ReactNode;
+};
+
+export type ErrorState = {
+  hasError: boolean;
 };
