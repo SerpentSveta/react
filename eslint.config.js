@@ -6,6 +6,7 @@ import react from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
+import jest from 'eslint-plugin-jest';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -40,6 +41,18 @@ export default tseslint.config(
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    files: ['**/__tests__/**/*.[jt]s?(x)', '**/*.test.[jt]s?(x)', 'tests/**/*'],
+    plugins: {
+      jest,
+    },
+    rules: {
+      ...jest.configs.recommended.rules,
+    },
+    languageOptions: {
+      globals: globals.jest,
     },
   }
 );
