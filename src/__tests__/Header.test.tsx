@@ -3,9 +3,17 @@ import { render, screen } from '@testing-library/react';
 import { Header } from '../components/Header/Header';
 
 describe('Header', () => {
-  it('renders Header component', () => {
+  it('Render Logo', () => {
     render(<Header />);
+    const headerLogo = screen.getByRole('img', { name: /rick and morty/i });
+    expect(headerLogo).toBeInTheDocument();
+  });
 
-    screen.debug();
+  it('Render header', () => {
+    render(<Header />);
+    const headerTitle = screen.getByRole('heading', {
+      name: /rick and morty character search/i,
+    });
+    expect(headerTitle).toBeInTheDocument();
   });
 });
