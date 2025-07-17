@@ -64,3 +64,66 @@ describe('User Interaction Tests', () => {
     expect(localStorage.getItem('inputName')).toBe('Rick');
   });
 });
+
+describe('LocalStorage Integration', () => {
+  it('Overwrites existing localStorage value when new search is performed', async () => {
+    localStorage.setItem('inputName', 'Morty');
+    render(<Search />);
+
+    const input = screen.getByRole('textbox');
+    await userEvent.clear(input);
+    await userEvent.type(input, 'Rick');
+
+    const searchButton = screen.getByRole('button', { name: /Search/i });
+    await userEvent.click(searchButton);
+
+    expect(localStorage.getItem('inputName')).toBe('Rick');
+  });
+});
+
+describe('query generation', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('request with an entered name name', async () => {
+    localStorage.clear();
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      json: async () => ({ results: [] }),
+    });
+
+    render(<Search />);
+
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, 'Rick');
+
+    const searchButton = screen.getByRole('button', { name: /Search/i });
+    await userEvent.click(searchButton);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://rickandmortyapi.com/api/character/?name=Rick&page=1'
+    );
+  });
+
+  it('request with an empty name', async () => {
+    localStorage.clear();
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      json: async () => ({ results: [] }),
+    });
+
+    render(<Search />);
+
+    const searchButton = screen.getByRole('button', { name: /Search/i });
+    await userEvent.click(searchButton);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://rickandmortyapi.com/api/character/?name=&page=1'
+    );
+  });
+});
