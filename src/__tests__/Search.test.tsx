@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Search } from '../components/Search/Search';
 
@@ -37,5 +38,29 @@ describe('Search Rendering', () => {
     const input = screen.getByRole('textbox');
 
     expect(input).toHaveValue('');
+  });
+});
+
+describe('User Interaction Tests', () => {
+  it('Updates input value when user types', async () => {
+    render(<Search />);
+
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, 'Rick');
+
+    expect(input).toHaveValue('Rick');
+  });
+  it('Saves search term to localStorage when search button is clicked', async () => {
+    localStorage.clear();
+
+    render(<Search />);
+
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, 'Rick');
+
+    const searchButton = screen.getByRole('button', { name: /Search/i });
+    await userEvent.click(searchButton);
+
+    expect(localStorage.getItem('inputName')).toBe('Rick');
   });
 });
