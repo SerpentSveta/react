@@ -90,7 +90,7 @@ describe('query generation', () => {
     jest.clearAllMocks();
   });
 
-  it('request with an entered name name', async () => {
+  it('request with an entered name', async () => {
     localStorage.clear();
 
     (global.fetch as jest.Mock).mockResolvedValue({
