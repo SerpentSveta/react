@@ -23,4 +23,5 @@ export default {
       lines: 50,
     },
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
