@@ -12,6 +12,7 @@ export class Search extends Component {
     name: localStorage.getItem('inputName') || '',
     results: null,
     loading: false,
+    error: null,
   };
 
   componentDidMount() {
@@ -38,12 +39,17 @@ export class Search extends Component {
       );
       const data = await response.json();
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      if (process.env.NODE_ENV !== 'test') {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+      }
 
       this.setState({ results: data.results || [] });
     } catch (error) {
       console.error('Error receive:', error);
-      this.setState({ results: [] });
+      this.setState({
+        results: [],
+        error: 'Error receive: ' + (error as Error).message,
+      });
     } finally {
       this.setState({ loading: false });
     }
@@ -64,6 +70,10 @@ export class Search extends Component {
           <Button onClick={this.sendRequest}>Search</Button>
         </form>
         <h2>Results</h2>
+        {this.state.error && (
+          <p className="error-message">{this.state.error}</p>
+        )}
+
         <ErrorBoundary>
           {this.state.loading ? (
             <Spinner />
