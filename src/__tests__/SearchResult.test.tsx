@@ -1,23 +1,24 @@
 import '@testing-library/jest-dom';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { SearchResult } from '../components/SearchResult/SearchResult';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 import type { Character } from '../services/types';
 
-describe('rendering CardList, Card and Button', () => {
-  const mockResults: Character[] = [
-    {
-      id: 1,
-      name: 'Morty Smith',
-      image: 'morty.png',
-    },
-    {
-      id: 2,
-      name: 'Rick Sanchez',
-      image: 'rick.png',
-    },
-  ];
+const mockResults: Character[] = [
+  {
+    id: 1,
+    name: 'Morty Smith',
+    image: 'morty.png',
+  },
+  {
+    id: 2,
+    name: 'Rick Sanchez',
+    image: 'rick.png',
+  },
+];
 
+describe('rendering CardList, Card and Button', () => {
   it('render CardList', () => {
     render(<SearchResult results={mockResults} />);
 
@@ -64,5 +65,22 @@ describe('empty results and null', () => {
   it('render anything when empty is null', () => {
     const { container } = render(<SearchResult results={null} />);
     expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe('error button', () => {
+  it('backup user interface', async () => {
+    render(
+      <ErrorBoundary>
+        <SearchResult results={mockResults} />
+      </ErrorBoundary>
+    );
+
+    const errorButton = screen.getByRole('button', { name: /error/i });
+
+    await userEvent.click(errorButton);
+
+    const backupUI = screen.getByText(/Something broke/i);
+    expect(backupUI).toBeInTheDocument();
   });
 });
