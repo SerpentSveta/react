@@ -10,6 +10,7 @@ export type SearchState = {
   name: string;
   results: Character[] | null;
   loading: boolean;
+  error: string | null;
 };
 
 export type ErrorSearchResult = {
