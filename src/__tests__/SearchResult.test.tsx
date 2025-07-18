@@ -69,6 +69,14 @@ describe('empty results and null', () => {
 });
 
 describe('error button', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    (console.error as jest.Mock).mockRestore();
+  });
+
   it('backup user interface', async () => {
     render(
       <ErrorBoundary>
