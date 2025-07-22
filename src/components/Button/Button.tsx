@@ -1,13 +1,10 @@
 import './Button.css';
-import { Component } from 'react';
 import type { ButtonProps } from '../../services/types';
 
-export class Button extends Component<ButtonProps> {
-  render() {
-    return (
-      <button className="button" onClick={this.props.onClick}>
-        {this.props.children}
-      </button>
-    );
-  }
+export function Button({ onClick, children }: ButtonProps) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
 }

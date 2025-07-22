@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "husky && chmod ug+x .husky/*",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "eslint-plugin-react-compiler": "^19.0.0-beta-af1b7da-20250417",
