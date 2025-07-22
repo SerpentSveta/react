@@ -5,13 +5,13 @@ import { Search } from '../components/Search/Search';
 import type { Character } from '../services/types';
 
 beforeEach(() => {
+  localStorage.clear();
   global.fetch = jest.fn();
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterEach(() => {
   jest.clearAllMocks();
-  (console.error as jest.Mock).mockRestore();
 });
 
 const mockResults: Character[] = [
@@ -29,6 +29,8 @@ const mockResults: Character[] = [
 
 describe('testing API', () => {
   it('Success Case', async () => {
+    localStorage.setItem('inputName', 'Morty');
+
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ results: mockResults }),
@@ -36,17 +38,11 @@ describe('testing API', () => {
 
     render(<Search />);
 
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, 'Morty');
+    const morty = await screen.findByText(/Morty Smith/i);
+    const rick = await screen.findByText(/Rick Sanchez/i);
 
-    const searchButton = screen.getByRole('button', { name: /search/i });
-    await userEvent.click(searchButton);
-
-    const titleMorty = await screen.findByText(/Morty Smith/i);
-    expect(titleMorty).toBeInTheDocument();
-
-    const titleRick = await screen.findByText(/Rick Sanchez/i);
-    expect(titleRick).toBeInTheDocument();
+    expect(morty).toBeInTheDocument();
+    expect(rick).toBeInTheDocument();
   });
 
   it('Error Case', async () => {
