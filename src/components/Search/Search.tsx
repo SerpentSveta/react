@@ -6,11 +6,10 @@ import type { Character } from '../../services/types';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 export function Search() {
-  const [charName, setCharName] = useState<string>(
-    localStorage.getItem('inputName') || ''
-  );
+  const [charName, setCharName] = useLocalStorage('inputName', '');
   const [results, setResults] = useState<Character[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,9 +42,8 @@ export function Search() {
   };
 
   function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
+    const value = event.target.value.trim();
     setCharName(value);
-    localStorage.setItem('inputName', value);
   }
 
   return (
