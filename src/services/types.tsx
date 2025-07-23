@@ -34,3 +34,16 @@ export type ErrorProps = {
 export type ErrorState = {
   hasError: boolean;
 };
+
+export type Info = {
+  count: number;
+  next: null | string;
+  pages: number;
+  prev: null | string;
+};
+
+export type PaginationProps = {
+  count: number;
+  page: number;
+  onChange: (page: number) => void;
+};

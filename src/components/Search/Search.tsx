@@ -1,5 +1,6 @@
 import './Search.css';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { ChangeEvent } from 'react';
 import { Button } from '../Button/Button';
 import type { Character } from '../../services/types';
@@ -7,10 +8,14 @@ import { SearchResult } from '../SearchResult/SearchResult';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { Pagination } from '../Pagination/Pagination';
 
 export function Search() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
   const [results, setResults] = useState<Character[] | null>(null);
+  const [page, setPage] = useState(1);
+  const [quantityPages, setQuantityPages] = useState(1);
+  const [, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,20 +23,26 @@ export function Search() {
     sendRequest();
   }, []);
 
+  useEffect(() => {
+    sendRequest();
+    setSearchParams({ page: String(page) });
+  }, [page]);
+
   const sendRequest = async () => {
     setLoading(true);
 
     try {
       const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${charName}&page=1`
+        `https://rickandmortyapi.com/api/character/?name=${charName}&page=${page}`
       );
       const data = await response.json();
 
       if (process.env.NODE_ENV !== 'test') {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
       setResults(data.results || []);
+      setQuantityPages(data.info?.pages || 1);
     } catch (error: unknown) {
       console.error('Error receive:', error);
       if (error instanceof Error) {
@@ -60,13 +71,25 @@ export function Search() {
           className="search-input"
         />
 
-        <Button onClick={sendRequest}>Search</Button>
+        <Button
+          onClick={() => {
+            setPage(1);
+            sendRequest();
+          }}
+        >
+          Search
+        </Button>
       </form>
       <h2>Results</h2>
       {error && <p className="error-message">{error}</p>}
       <ErrorBoundary>
         {loading ? <Spinner /> : <SearchResult results={results} />}
       </ErrorBoundary>
+      <Pagination
+        count={quantityPages}
+        page={page}
+        onChange={(num: number) => setPage(num)}
+      />
     </section>
   );
 }
