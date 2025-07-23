@@ -32,10 +32,13 @@ export function Search() {
       }
 
       setResults(data.results || []);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error receive:', error);
-      setResults([]);
-      setError('Error receive: ' + (error as Error).message);
+      if (error instanceof Error) {
+        setError('Error receive: ' + error.message);
+      } else {
+        setError('Error receive: unknown error');
+      }
     } finally {
       setLoading(false);
     }
