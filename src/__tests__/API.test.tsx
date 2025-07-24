@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from '../components/Search/Search';
 import type { Character } from '../services/types';
+import { MemoryRouter } from 'react-router-dom';
 
 beforeEach(() => {
   localStorage.clear();
@@ -36,7 +37,11 @@ describe('testing API', () => {
       json: async () => ({ results: mockResults }),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const morty = await screen.findByText(/Morty Smith/i);
     const rick = await screen.findByText(/Rick Sanchez/i);
@@ -48,7 +53,11 @@ describe('testing API', () => {
   it('Error Case', async () => {
     (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('API error'));
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
     await userEvent.click(searchButton);
@@ -64,7 +73,11 @@ describe('testing API', () => {
       json: async () => ({}),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
     await userEvent.click(searchButton);

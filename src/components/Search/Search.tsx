@@ -15,16 +15,11 @@ export function Search() {
   const [results, setResults] = useState<Character[] | null>(null);
   const [page, setPage] = useState(1);
   const [quantityPages, setQuantityPages] = useState(1);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const nameFromURL = searchParams.get('name') || '';
-    const pageFromURL = Number(searchParams.get('page')) || 1;
-
-    setCharName(nameFromURL);
-    setPage(pageFromURL);
     sendRequest();
   }, []);
 
