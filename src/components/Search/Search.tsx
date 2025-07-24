@@ -15,17 +15,22 @@ export function Search() {
   const [results, setResults] = useState<Character[] | null>(null);
   const [page, setPage] = useState(1);
   const [quantityPages, setQuantityPages] = useState(1);
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const nameFromURL = searchParams.get('name') || '';
+    const pageFromURL = Number(searchParams.get('page')) || 1;
+
+    setCharName(nameFromURL);
+    setPage(pageFromURL);
     sendRequest();
   }, []);
 
   useEffect(() => {
+    setSearchParams({ name: charName, page: String(page) });
     sendRequest();
-    setSearchParams({ page: String(page) });
   }, [page]);
 
   const sendRequest = async () => {
@@ -36,10 +41,6 @@ export function Search() {
         `https://rickandmortyapi.com/api/character/?name=${charName}&page=${page}`
       );
       const data = await response.json();
-
-      if (process.env.NODE_ENV !== 'test') {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
 
       setResults(data.results || []);
       setQuantityPages(data.info?.pages || 1);
@@ -74,6 +75,7 @@ export function Search() {
         <Button
           onClick={() => {
             setPage(1);
+            setSearchParams({ name: charName, page: '1' });
             sendRequest();
           }}
         >

@@ -1,0 +1,30 @@
+.page-container {
+  display: flex;
+  gap: 20px;
+}
+
+.arrow {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.number-page {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #10b5d0;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #10b5d0;
+  margin: 0 4px;
+}
+
+.inactive {
+  opacity: 0.5;
+  cursor: auto;
+}
