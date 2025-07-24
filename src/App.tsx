@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="main">
         <Routes>
           <Route path="/" element={<Search />} />
           <Route path="/about" element={<About />} />

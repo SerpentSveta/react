@@ -11,6 +11,16 @@ header {
   height: 70px;
 }
 
+.header-link {
+  color: #000;
+  transition: all 0.1s ease-in;
+}
+
+.header-link:hover {
+  color: #10b5d0;
+  border-bottom: 2px solid #d1e25f;
+}
+
 @media (max-width: 450px) {
   .header-logo {
     height: 50px;
