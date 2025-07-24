@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { SearchResult } from '../components/SearchResult/SearchResult';
 import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
@@ -27,14 +26,6 @@ describe('rendering CardList, Card and Button', () => {
 
     expect(cardList).toBeInTheDocument();
     expect(cardListItem).toHaveLength(2);
-  });
-
-  it('render errorButton', () => {
-    render(<SearchResult results={mockResults} />);
-
-    const errorButton = screen.getByRole('button', { name: /error/i });
-
-    expect(errorButton).toBeInTheDocument();
   });
 
   it('render card', () => {
@@ -78,15 +69,15 @@ describe('error button', () => {
   });
 
   it('backup user interface', async () => {
+    const BrokenComponent: React.FC = () => {
+      throw new Error('Test error');
+    };
+
     render(
       <ErrorBoundary>
-        <SearchResult results={mockResults} />
+        <BrokenComponent />
       </ErrorBoundary>
     );
-
-    const errorButton = screen.getByRole('button', { name: /error/i });
-
-    await userEvent.click(errorButton);
 
     const backupUI = screen.getByText(/Something broke/i);
     expect(backupUI).toBeInTheDocument();
