@@ -27,7 +27,7 @@ export function Search() {
 
   useEffect(() => {
     sendRequest();
-  }, [charName, page]);
+  }, [page]);
 
   const sendRequest = async () => {
     if (charName === undefined) return;
@@ -72,6 +72,7 @@ export function Search() {
 
         <Button
           onClick={() => {
+            sendRequest();
             navigate(`/1`);
           }}
         >

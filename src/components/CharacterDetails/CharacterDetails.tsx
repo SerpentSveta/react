@@ -57,9 +57,9 @@ export function CharacterDetails() {
           alt={charDetails.name}
         />
         <p className="char-details-name">{charDetails.name}</p>
-        <p className="char-details-status">{charDetails.status}</p>
-        <p className="char-details-species">{charDetails.species}</p>
-        <p className="char-details-gender">{charDetails.gender}</p>
+        <p className="char-details-status">Status: {charDetails.status}</p>
+        <p className="char-details-species">Species: {charDetails.species}</p>
+        <p className="char-details-gender">Gender: {charDetails.gender}</p>
         <Button
           onClick={() => {
             navigate(`/${page}`);

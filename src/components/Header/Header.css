@@ -5,15 +5,20 @@ header {
   height: 70px;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
+  border: 4px solid #d1e25f;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
 }
 
 .header-logo {
-  height: 70px;
+  height: 55px;
 }
 
 .header-link {
   color: #000;
   transition: all 0.1s ease-in;
+  font-size: 1.5em;
 }
 
 .header-link:hover {
@@ -21,8 +26,17 @@ header {
   border-bottom: 2px solid #d1e25f;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 580px) {
+  header {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 500px) {
   .header-logo {
-    height: 50px;
+    height: 30px;
+  }
+  header {
+    height: 90px;
   }
 }

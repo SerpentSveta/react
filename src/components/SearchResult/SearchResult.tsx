@@ -1,9 +1,10 @@
 import './SearchResult.css';
 import type { Props } from '../../services/types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function SearchResult({ results, page }: Props) {
   const navigate = useNavigate();
+  const { detailsId } = useParams();
 
   if (results === null) {
     return null;
@@ -15,7 +16,7 @@ export function SearchResult({ results, page }: Props) {
 
   return (
     <>
-      <ul className="result-list">
+      <ul className={`result-list ${!detailsId ? 'single-column' : ''}`}>
         {results.map((char) => (
           <li
             className="result-item"

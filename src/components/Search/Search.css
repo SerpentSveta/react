@@ -20,6 +20,8 @@
 
 .master-detail {
   display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 @media (max-width: 450px) {
