@@ -13,7 +13,8 @@ export default {
   },
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/src/test/__mocks__/fileMock.js',
+    '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$':
+      '<rootDir>/src/test/__mocks__/fileMock.js',
   },
   coverageThreshold: {
     global: {
