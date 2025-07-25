@@ -3,15 +3,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from '../components/Search/Search';
 import type { Character } from '../services/types';
+import { MemoryRouter } from 'react-router-dom';
 
 beforeEach(() => {
+  localStorage.clear();
   global.fetch = jest.fn();
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterEach(() => {
   jest.clearAllMocks();
-  (console.error as jest.Mock).mockRestore();
 });
 
 const mockResults: Character[] = [
@@ -29,30 +30,34 @@ const mockResults: Character[] = [
 
 describe('testing API', () => {
   it('Success Case', async () => {
+    localStorage.setItem('inputName', 'Morty');
+
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ results: mockResults }),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, 'Morty');
+    const morty = await screen.findByText(/Morty Smith/i);
+    const rick = await screen.findByText(/Rick Sanchez/i);
 
-    const searchButton = screen.getByRole('button', { name: /search/i });
-    await userEvent.click(searchButton);
-
-    const titleMorty = await screen.findByText(/Morty Smith/i);
-    expect(titleMorty).toBeInTheDocument();
-
-    const titleRick = await screen.findByText(/Rick Sanchez/i);
-    expect(titleRick).toBeInTheDocument();
+    expect(morty).toBeInTheDocument();
+    expect(rick).toBeInTheDocument();
   });
 
   it('Error Case', async () => {
     (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('API error'));
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
     await userEvent.click(searchButton);
@@ -68,7 +73,11 @@ describe('testing API', () => {
       json: async () => ({}),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const searchButton = screen.getByRole('button', { name: /search/i });
     await userEvent.click(searchButton);

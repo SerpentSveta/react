@@ -2,48 +2,71 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Search } from '../components/Search/Search';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Search Rendering', () => {
   it('Render Titles', () => {
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
     const searchTitle = screen.getByRole('heading', { name: /Search/i });
     const resultTitle = screen.getByRole('heading', { name: /Results/i });
     expect(searchTitle).toBeInTheDocument();
     expect(resultTitle).toBeInTheDocument();
   });
   it('Render search input', () => {
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
     const searchInput = screen.getByRole('textbox');
     expect(searchInput).toBeInTheDocument();
   });
   it('Render search button', () => {
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
     const searchButton = screen.getByRole('button', { name: /Search/i });
     expect(searchButton).toBeInTheDocument();
   });
-  it('Displays previously saved search term from localStorage on mount', () => {
-    localStorage.setItem('inputName', 'Morty');
+  it('Displays previously saved search term from localStorage on mount', async () => {
+    localStorage.setItem('inputName', JSON.stringify('Morty'));
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
-    const input = screen.getByRole('textbox');
-
+    const input = await screen.findByRole('textbox');
     expect(input).toHaveValue('Morty');
   });
-  it('Shows empty input when no saved term exists', () => {
-    localStorage.clear();
+});
+it('Shows empty input when no saved term exists', () => {
+  localStorage.clear();
 
-    render(<Search />);
+  render(
+    <MemoryRouter>
+      <Search />
+    </MemoryRouter>
+  );
 
-    const input = screen.getByRole('textbox');
-
-    expect(input).toHaveValue('');
-  });
+  const input = screen.getByRole('textbox');
+  expect(input).toHaveValue('');
 });
 
 describe('User Interaction Tests', () => {
   it('Updates input value when user types', async () => {
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     await userEvent.type(input, 'Rick');
@@ -53,7 +76,11 @@ describe('User Interaction Tests', () => {
   it('Saves search term to localStorage when search button is clicked', async () => {
     localStorage.clear();
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     await userEvent.type(input, 'Rick');
@@ -61,14 +88,18 @@ describe('User Interaction Tests', () => {
     const searchButton = screen.getByRole('button', { name: /Search/i });
     await userEvent.click(searchButton);
 
-    expect(localStorage.getItem('inputName')).toBe('Rick');
+    expect(localStorage.getItem('inputName')).toBe(JSON.stringify('Rick'));
   });
 });
 
 describe('LocalStorage Integration', () => {
   it('Overwrites existing localStorage value when new search is performed', async () => {
     localStorage.setItem('inputName', 'Morty');
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
@@ -77,7 +108,7 @@ describe('LocalStorage Integration', () => {
     const searchButton = screen.getByRole('button', { name: /Search/i });
     await userEvent.click(searchButton);
 
-    expect(localStorage.getItem('inputName')).toBe('Rick');
+    expect(localStorage.getItem('inputName')).toBe(JSON.stringify('Rick'));
   });
 });
 
@@ -97,7 +128,11 @@ describe('query generation', () => {
       json: async () => ({ results: [] }),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     await userEvent.type(input, 'Rick');
@@ -117,7 +152,11 @@ describe('query generation', () => {
       json: async () => ({ results: [] }),
     });
 
-    render(<Search />);
+    render(
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    );
 
     const searchButton = screen.getByRole('button', { name: /Search/i });
     await userEvent.click(searchButton);

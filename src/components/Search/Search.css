@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 .search-input {
@@ -15,6 +16,12 @@
 .search-input:focus-visible {
   border: 1px solid #10b5d0;
   outline: none;
+}
+
+.master-detail {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 @media (max-width: 450px) {

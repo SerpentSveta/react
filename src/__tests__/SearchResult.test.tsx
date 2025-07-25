@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { SearchResult } from '../components/SearchResult/SearchResult';
 import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 import type { Character } from '../services/types';
+import { MemoryRouter } from 'react-router-dom';
 
 const mockResults: Character[] = [
   {
@@ -20,7 +20,11 @@ const mockResults: Character[] = [
 
 describe('rendering CardList, Card and Button', () => {
   it('render CardList', () => {
-    render(<SearchResult results={mockResults} />);
+    render(
+      <MemoryRouter>
+        <SearchResult results={mockResults} page="3" />
+      </MemoryRouter>
+    );
 
     const cardList = screen.getByRole('list');
     const cardListItem = screen.getAllByRole('listitem');
@@ -29,16 +33,12 @@ describe('rendering CardList, Card and Button', () => {
     expect(cardListItem).toHaveLength(2);
   });
 
-  it('render errorButton', () => {
-    render(<SearchResult results={mockResults} />);
-
-    const errorButton = screen.getByRole('button', { name: /error/i });
-
-    expect(errorButton).toBeInTheDocument();
-  });
-
   it('render card', () => {
-    render(<SearchResult results={mockResults} />);
+    render(
+      <MemoryRouter>
+        <SearchResult results={mockResults} page="3" />
+      </MemoryRouter>
+    );
 
     const titleMorty = screen.getByText(/Morty Smith/i);
     expect(titleMorty).toBeInTheDocument();
@@ -56,14 +56,22 @@ describe('rendering CardList, Card and Button', () => {
 
 describe('empty results and null', () => {
   it('render message when empty results', () => {
-    render(<SearchResult results={[]} />);
+    render(
+      <MemoryRouter>
+        <SearchResult results={[]} page="3" />
+      </MemoryRouter>
+    );
 
     const message = screen.getByText(/Nothing was found/i);
     expect(message).toBeInTheDocument();
   });
 
   it('render anything when empty is null', () => {
-    const { container } = render(<SearchResult results={null} />);
+    const { container } = render(
+      <MemoryRouter>
+        <SearchResult results={null} page="3" />
+      </MemoryRouter>
+    );
     expect(container).toBeEmptyDOMElement();
   });
 });
@@ -78,15 +86,15 @@ describe('error button', () => {
   });
 
   it('backup user interface', async () => {
+    const BrokenComponent: React.FC = () => {
+      throw new Error('Test error');
+    };
+
     render(
       <ErrorBoundary>
-        <SearchResult results={mockResults} />
+        <BrokenComponent />
       </ErrorBoundary>
     );
-
-    const errorButton = screen.getByRole('button', { name: /error/i });
-
-    await userEvent.click(errorButton);
 
     const backupUI = screen.getByText(/Something broke/i);
     expect(backupUI).toBeInTheDocument();

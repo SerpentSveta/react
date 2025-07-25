@@ -1,14 +1,17 @@
-import { Component } from 'react';
 import logo from '/logo.png';
 import './Header.css';
+import { Link } from 'react-router';
 
-export class Header extends Component {
-  render() {
-    return (
-      <header>
+export function Header() {
+  return (
+    <header>
+      <Link to="/">
         <img className="header-logo" src={logo} alt="Rick and Morty" />
-        <h1>Rick and Morty character search</h1>
-      </header>
-    );
-  }
+      </Link>
+      <Link to="/about" className="header-link">
+        About
+      </Link>
+      <h1>Rick and Morty character search</h1>
+    </header>
+  );
 }

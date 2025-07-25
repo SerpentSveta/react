@@ -19,6 +19,7 @@ export type ErrorSearchResult = {
 
 export type Props = {
   results: Character[] | null;
+  page: string;
 };
 
 export type ButtonProps = {
@@ -33,4 +34,23 @@ export type ErrorProps = {
 
 export type ErrorState = {
   hasError: boolean;
+};
+
+export type Info = {
+  count: number;
+  next: null | string;
+  pages: number;
+  prev: null | string;
+};
+
+export type PaginationProps = {
+  count: number;
+  page: number;
+  onChange: (page: number) => void;
+};
+
+export type CharacterDetails = Character & {
+  status: string;
+  species: string;
+  gender: string;
 };

@@ -1,87 +1,105 @@
 import './Search.css';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import type { ChangeEvent } from 'react';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
-import type { SearchState } from '../../services/types';
+import type { Character } from '../../services/types';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { Pagination } from '../Pagination/Pagination';
 
-export class Search extends Component {
-  state: SearchState = {
-    name: localStorage.getItem('inputName') || '',
-    results: null,
-    loading: false,
-    error: null,
-  };
+export function Search() {
+  const [charName, setCharName] = useLocalStorage('inputName', '');
+  const [results, setResults] = useState<Character[] | null>(null);
+  const [quantityPages, setQuantityPages] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  componentDidMount() {
-    if (this.state.name.trim() !== '') {
-      this.sendRequest();
-    }
-  }
+  const { page = '1', detailsId } = useParams();
+  const currentPage = Number(page) || 1;
+  const navigate = useNavigate();
 
-  handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+  useEffect(() => {
+    sendRequest();
+  }, []);
 
-    this.setState({
-      name: value,
-    });
+  useEffect(() => {
+    sendRequest();
+  }, [page]);
 
-    localStorage.setItem('inputName', value);
-  };
+  const sendRequest = async () => {
+    if (charName === undefined) return;
 
-  sendRequest = async () => {
-    this.setState({ loading: true });
+    setLoading(true);
+
     try {
       const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${this.state.name}&page=1`
+        `https://rickandmortyapi.com/api/character/?name=${charName}&page=${currentPage}`
       );
       const data = await response.json();
 
-      if (process.env.NODE_ENV !== 'test') {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-      }
-
-      this.setState({ results: data.results || [] });
-    } catch (error) {
+      setResults(data.results || []);
+      setQuantityPages(data.info?.pages || 1);
+    } catch (error: unknown) {
       console.error('Error receive:', error);
-      this.setState({
-        results: [],
-        error: 'Error receive: ' + (error as Error).message,
-      });
+      if (error instanceof Error) {
+        setError('Error receive: ' + error.message);
+      } else {
+        setError('Error receive: unknown error');
+      }
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  render() {
-    return (
-      <section className="section-search">
-        <h2>Search</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <input
-            type="text"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-            className="search-input"
-          />
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value.trim();
+    setCharName(value);
+  }
 
-          <Button onClick={this.sendRequest}>Search</Button>
-        </form>
-        <h2>Results</h2>
-        {this.state.error && (
-          <p className="error-message">{this.state.error}</p>
-        )}
+  return (
+    <section className="section-search">
+      <h2>Search</h2>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          value={charName}
+          onChange={handleNameChange}
+          className="search-input"
+        />
 
-        <ErrorBoundary>
-          {this.state.loading ? (
+        <Button
+          onClick={() => {
+            sendRequest();
+            navigate(`/1`);
+          }}
+        >
+          Search
+        </Button>
+      </form>
+      <h2>Results</h2>
+      {error && <p className="error-message">{error}</p>}
+      <ErrorBoundary>
+        <div className="master-detail">
+          {loading ? (
             <Spinner />
           ) : (
-            <SearchResult results={this.state.results} />
+            <SearchResult results={results} page={page} />
           )}
-        </ErrorBoundary>
-      </section>
-    );
-  }
+          {detailsId && (
+            <div className="details-wrapper">
+              <Outlet />
+            </div>
+          )}
+        </div>
+      </ErrorBoundary>
+      <Pagination
+        count={quantityPages}
+        page={currentPage}
+        onChange={(num: number) => navigate(`/${num}`)}
+      />
+    </section>
+  );
 }
