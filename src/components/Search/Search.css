@@ -18,6 +18,10 @@
   outline: none;
 }
 
+.master-detail {
+  display: flex;
+}
+
 @media (max-width: 450px) {
   .search-input {
     padding: 0.7rem 1rem;

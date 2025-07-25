@@ -1,7 +1,7 @@
 import './Search.css';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import type { ChangeEvent } from 'react';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import type { Character } from '../../services/types';
 import { SearchResult } from '../SearchResult/SearchResult';
@@ -13,27 +13,30 @@ import { Pagination } from '../Pagination/Pagination';
 export function Search() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
   const [results, setResults] = useState<Character[] | null>(null);
-  const [page, setPage] = useState(1);
   const [quantityPages, setQuantityPages] = useState(1);
-  const [, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const { page = '1', detailsId } = useParams();
+  const currentPage = Number(page) || 1;
+  const navigate = useNavigate();
 
   useEffect(() => {
     sendRequest();
   }, []);
 
   useEffect(() => {
-    setSearchParams({ name: charName, page: String(page) });
     sendRequest();
-  }, [page]);
+  }, [charName, page]);
 
   const sendRequest = async () => {
+    if (charName === undefined) return;
+
     setLoading(true);
 
     try {
       const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${charName}&page=${page}`
+        `https://rickandmortyapi.com/api/character/?name=${charName}&page=${currentPage}`
       );
       const data = await response.json();
 
@@ -69,9 +72,7 @@ export function Search() {
 
         <Button
           onClick={() => {
-            setPage(1);
-            setSearchParams({ name: charName, page: '1' });
-            sendRequest();
+            navigate(`/1`);
           }}
         >
           Search
@@ -80,12 +81,23 @@ export function Search() {
       <h2>Results</h2>
       {error && <p className="error-message">{error}</p>}
       <ErrorBoundary>
-        {loading ? <Spinner /> : <SearchResult results={results} />}
+        <div className="master-detail">
+          {loading ? (
+            <Spinner />
+          ) : (
+            <SearchResult results={results} page={page} />
+          )}
+          {detailsId && (
+            <div className="details-wrapper">
+              <Outlet />
+            </div>
+          )}
+        </div>
       </ErrorBoundary>
       <Pagination
         count={quantityPages}
-        page={page}
-        onChange={(num: number) => setPage(num)}
+        page={currentPage}
+        onChange={(num: number) => navigate(`/${num}`)}
       />
     </section>
   );

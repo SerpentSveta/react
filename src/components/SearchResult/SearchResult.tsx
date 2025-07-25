@@ -1,7 +1,10 @@
 import './SearchResult.css';
 import type { Props } from '../../services/types';
+import { useNavigate } from 'react-router-dom';
 
-export function SearchResult({ results }: Props) {
+export function SearchResult({ results, page }: Props) {
+  const navigate = useNavigate();
+
   if (results === null) {
     return null;
   }
@@ -14,7 +17,11 @@ export function SearchResult({ results }: Props) {
     <>
       <ul className="result-list">
         {results.map((char) => (
-          <li className="result-item" key={char.id}>
+          <li
+            className="result-item"
+            key={char.id}
+            onClick={() => navigate(`/${page}/${char.id}`)}
+          >
             <img className="char-image" src={char.image} alt={char.name} />
             <span className="char-name">{char.name}</span>
           </li>
