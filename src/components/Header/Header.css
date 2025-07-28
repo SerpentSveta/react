@@ -26,6 +26,27 @@ header {
   border-bottom: 2px solid #d1e25f;
 }
 
+.navigation {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.header__button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: 1px solid #10b5d0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 @media (max-width: 580px) {
   header {
     padding: 10px;

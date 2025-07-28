@@ -16,7 +16,7 @@ function App() {
   };
 
   return (
-    <div className={`${isDarkTheme ? 'app--dark' : 'app'}`}>
+    <div className={`${isDarkTheme ? 'app app--dark' : 'app'}`}>
       <ThemeContext.Provider value={{ isDarkTheme, toggleTheme }}>
         <Header />
         <main className={`${isDarkTheme ? 'main main--dark' : 'main'}`}>

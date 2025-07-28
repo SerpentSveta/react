@@ -61,7 +61,7 @@ export function Search() {
 
   return (
     <section className="section-search">
-      <h2>Search</h2>
+      <h1>Rick and Morty character search</h1>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
