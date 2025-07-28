@@ -12,8 +12,8 @@ function App() {
       <Header />
       <main className="main">
         <Routes>
-          <Route path="/" element={<Navigate to="/1" />} />
-          <Route path="/:page" element={<Search />}>
+          <Route path="/" element={<Navigate to="/page/1" />} />
+          <Route path="/page/:page" element={<Search />}>
             <Route path=":detailsId" element={<CharacterDetails />} />
           </Route>
           <Route path="/about" element={<About />} />

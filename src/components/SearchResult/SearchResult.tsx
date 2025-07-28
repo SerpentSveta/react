@@ -21,7 +21,7 @@ export function SearchResult({ results, page }: Props) {
           <li
             className="result-item"
             key={char.id}
-            onClick={() => navigate(`/${page}/${char.id}`)}
+            onClick={() => navigate(`/page/${page}/${char.id}`)}
           >
             <img className="char-image" src={char.image} alt={char.name} />
             <span className="char-name">{char.name}</span>

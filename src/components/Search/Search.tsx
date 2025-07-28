@@ -73,7 +73,7 @@ export function Search() {
         <Button
           onClick={() => {
             sendRequest();
-            navigate(`/1`);
+            navigate(`/page/1`);
           }}
         >
           Search
@@ -98,7 +98,7 @@ export function Search() {
       <Pagination
         count={quantityPages}
         page={currentPage}
-        onChange={(num: number) => navigate(`/${num}`)}
+        onChange={(num: number) => navigate(`/page/${num}`)}
       />
     </section>
   );

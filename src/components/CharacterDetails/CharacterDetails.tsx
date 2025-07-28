@@ -62,7 +62,7 @@ export function CharacterDetails() {
         <p className="char-details-gender">Gender: {charDetails.gender}</p>
         <Button
           onClick={() => {
-            navigate(`/${page}`);
+            navigate(`/page/${page}`);
           }}
         >
           Close

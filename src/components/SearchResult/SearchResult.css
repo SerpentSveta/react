@@ -23,6 +23,7 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 }
 
 .char-image {
