@@ -54,3 +54,8 @@ export type CharacterDetails = Character & {
   species: string;
   gender: string;
 };
+
+export type ThemeContextType = {
+  isDarkTheme: boolean;
+  toggleTheme: () => void;
+};
