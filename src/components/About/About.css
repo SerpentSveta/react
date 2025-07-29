@@ -25,6 +25,22 @@
   margin: 0;
 }
 
+.about-title--dark {
+  color: #adb5bd;
+}
+
 .about-position {
   margin: 0;
+}
+
+.about-position--dark {
+  color: #adb5bd;
+}
+
+.about-text {
+  line-height: 2;
+}
+
+.about-text--dark {
+  color: #adb5bd;
 }

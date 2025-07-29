@@ -9,6 +9,8 @@ import { Spinner } from '../Spinner/Spinner';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Pagination } from '../Pagination/Pagination';
+import { useContext } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 
 export function Search() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
@@ -20,6 +22,8 @@ export function Search() {
   const { page = '1', detailsId } = useParams();
   const currentPage = Number(page) || 1;
   const navigate = useNavigate();
+
+  const { isDarkTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     sendRequest();
@@ -61,13 +65,17 @@ export function Search() {
 
   return (
     <section className="section-search">
-      <h1>Rick and Morty character search</h1>
+      <h1 className={isDarkTheme ? 'title-search--dark' : ''}>
+        Rick and Morty character search
+      </h1>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
           value={charName}
           onChange={handleNameChange}
-          className="search-input"
+          className={
+            isDarkTheme ? 'search-input search-input--dark' : 'search-input'
+          }
         />
 
         <Button
@@ -79,7 +87,7 @@ export function Search() {
           Search
         </Button>
       </form>
-      <h2>Results</h2>
+      <h2 className={isDarkTheme ? 'title-search--dark' : ''}>Results</h2>
       {error && <p className="error-message">{error}</p>}
       <ErrorBoundary>
         <div className="master-detail">

@@ -1,5 +1,6 @@
 import logo from '/logo.png';
-import sun from '/sun.svg';
+import logoDark from '/logo-dark.jpg';
+import sun from '/sun-yello.svg';
 import moon from '/moon.svg';
 
 import './Header.css';
@@ -13,10 +14,19 @@ export function Header() {
   return (
     <header>
       <Link to="/">
-        <img className="header-logo" src={logo} alt="Rick and Morty" />
+        <img
+          className="header-logo"
+          src={isDarkTheme ? logoDark : logo}
+          alt="Rick and Morty"
+        />
       </Link>
       <div className="navigation">
-        <Link to="/about" className="header-link">
+        <Link
+          to="/about"
+          className={
+            isDarkTheme ? 'header-link header-link--dark' : 'header-link'
+          }
+        >
           About
         </Link>
         <button className="header__button" onClick={toggleTheme}>

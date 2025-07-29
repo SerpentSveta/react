@@ -4,11 +4,15 @@
 }
 
 .app {
-  padding: 2rem;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  justify-content: space-between;
+  padding: 2rem;
+}
+
+.app--dark {
+  background-color: #02171a;
 }
 
 .logo {

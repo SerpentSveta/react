@@ -21,6 +21,10 @@ header {
   font-size: 1.5em;
 }
 
+.header-link--dark {
+  color: #10b5d0;
+}
+
 .header-link:hover {
   color: #10b5d0;
   border-bottom: 2px solid #d1e25f;

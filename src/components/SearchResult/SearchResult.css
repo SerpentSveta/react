@@ -26,6 +26,10 @@
   cursor: pointer;
 }
 
+.char-name--dark {
+  color: #adb5bd;
+}
+
 .char-image {
   width: 150px;
 }
