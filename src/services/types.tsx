@@ -59,3 +59,11 @@ export type ThemeContextType = {
   isDarkTheme: boolean;
   toggleTheme: () => void;
 };
+
+export type CardsState = {
+  cards: number;
+  allSelectedCards: number[];
+  selectCard: (id: number) => void;
+  unSelectCard: (id: number) => void;
+  unselectAllCards: (id: number) => void;
+};
