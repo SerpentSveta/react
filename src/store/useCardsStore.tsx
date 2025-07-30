@@ -20,7 +20,7 @@ export const useCardsStore = create<CardsState>()(
               (currentId) => currentId !== id
             ),
           })),
-        unselectAllCards: () => set({ cards: 0 }),
+        unselectAllCards: () => set({ cards: 0, allSelectedCards: [] }),
       }),
       { name: 'cards-storage' }
     )

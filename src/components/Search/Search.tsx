@@ -11,6 +11,8 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Pagination } from '../Pagination/Pagination';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
+import { Flyout } from '../Flyout/Flyout';
+import { useCardsStore } from '../../store/useCardsStore';
 
 export function Search() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
@@ -24,6 +26,8 @@ export function Search() {
   const navigate = useNavigate();
 
   const { isDarkTheme } = useContext(ThemeContext);
+
+  const cards = useCardsStore((state) => state.cards);
 
   useEffect(() => {
     sendRequest();
@@ -108,6 +112,7 @@ export function Search() {
         page={currentPage}
         onChange={(num: number) => navigate(`/page/${num}`)}
       />
+      {cards > 0 && <Flyout />}
     </section>
   );
 }

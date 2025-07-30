@@ -65,5 +65,5 @@ export type CardsState = {
   allSelectedCards: number[];
   selectCard: (id: number) => void;
   unSelectCard: (id: number) => void;
-  unselectAllCards: (id: number) => void;
+  unselectAllCards: () => void;
 };
