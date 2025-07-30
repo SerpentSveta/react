@@ -29,7 +29,9 @@ export function SearchResult({ results, page }: Props) {
 
         return (
           <li
-            className="result-item"
+            className={
+              isChecked ? 'result-item result-item--checked' : 'result-item'
+            }
             key={char.id}
             onClick={() => navigate(`/page/${page}/${char.id}`)}
           >

@@ -28,6 +28,11 @@
   position: relative;
 }
 
+.result-item--checked {
+  opacity: 0.4;
+  transform: translateY(-3px) scale(1.02);
+}
+
 .result-item:hover {
   transform: translateY(-3px) scale(1.02);
 }
