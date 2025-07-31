@@ -5,6 +5,12 @@ import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 import type { Character } from '../services/types';
 import { MemoryRouter } from 'react-router-dom';
 
+jest.mock('../store/useSearchStore', () => ({
+  useSearchStore: jest.fn(),
+}));
+
+import { useSearchStore } from '../store/useSearchStore';
+
 const mockResults: Character[] = [
   {
     id: 1,
@@ -20,9 +26,13 @@ const mockResults: Character[] = [
 
 describe('rendering CardList, Card and Button', () => {
   it('render CardList', () => {
+    (useSearchStore as unknown as jest.Mock).mockImplementation((selector) =>
+      selector({ results: mockResults })
+    );
+
     render(
       <MemoryRouter>
-        <SearchResult results={mockResults} page="3" />
+        <SearchResult page="3" />
       </MemoryRouter>
     );
 
@@ -34,9 +44,13 @@ describe('rendering CardList, Card and Button', () => {
   });
 
   it('render card', () => {
+    (useSearchStore as unknown as jest.Mock).mockImplementation((selector) =>
+      selector({ results: mockResults })
+    );
+
     render(
       <MemoryRouter>
-        <SearchResult results={mockResults} page="3" />
+        <SearchResult page="3" />
       </MemoryRouter>
     );
 
@@ -56,9 +70,13 @@ describe('rendering CardList, Card and Button', () => {
 
 describe('empty results and null', () => {
   it('render message when empty results', () => {
+    (useSearchStore as unknown as jest.Mock).mockImplementation((selector) =>
+      selector({ results: [] })
+    );
+
     render(
       <MemoryRouter>
-        <SearchResult results={[]} page="3" />
+        <SearchResult page="3" />
       </MemoryRouter>
     );
 
@@ -66,12 +84,17 @@ describe('empty results and null', () => {
     expect(message).toBeInTheDocument();
   });
 
-  it('render anything when empty is null', () => {
+  it('render nothing when results is null', () => {
+    (useSearchStore as unknown as jest.Mock).mockImplementation((selector) =>
+      selector({ results: null })
+    );
+
     const { container } = render(
       <MemoryRouter>
-        <SearchResult results={null} page="3" />
+        <SearchResult page="3" />
       </MemoryRouter>
     );
+
     expect(container).toBeEmptyDOMElement();
   });
 });

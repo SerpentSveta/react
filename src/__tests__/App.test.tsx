@@ -13,7 +13,7 @@ describe('App', () => {
     );
 
     expect(
-      screen.getByRole('heading', { name: /rick and morty/i })
+      screen.getByRole('heading', { name: /Rick and Morty character search/i })
     ).toBeInTheDocument();
   });
 
@@ -28,8 +28,8 @@ describe('App', () => {
     await userEvent.click(button);
 
     const title = await screen.findByRole('heading', {
-      name: /search/i,
-      level: 2,
+      name: /Rick and Morty character search/i,
+      level: 1,
     });
     expect(title).toBeInTheDocument();
   });
