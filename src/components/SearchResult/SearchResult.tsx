@@ -1,7 +1,7 @@
 import './SearchResult.css';
 import type { Props } from '../../services/types';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useCardsStore } from '../../store/useCardsStore';
 import { useSearchStore } from '../../store/useSearchStore';
@@ -16,6 +16,13 @@ export function SearchResult({ page }: Props) {
   const allSelectedCards = useCardsStore((state) => state.allSelectedCards);
 
   const results = useSearchStore((state) => state.results);
+
+  const handleNavigate = useCallback(
+    (id: number) => {
+      navigate(`/page/${page}/${id}`);
+    },
+    [navigate, page]
+  );
 
   if (results === null) {
     return null;
@@ -36,7 +43,7 @@ export function SearchResult({ page }: Props) {
               isChecked ? 'result-item result-item--checked' : 'result-item'
             }
             key={char.id}
-            onClick={() => navigate(`/page/${page}/${char.id}`)}
+            onClick={() => handleNavigate(char.id)}
           >
             <img className="char-image" src={char.image} alt={char.name} />
             <button

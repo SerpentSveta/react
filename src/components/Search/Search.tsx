@@ -30,10 +30,6 @@ export function Search() {
 
   useEffect(() => {
     sendRequest();
-  }, []);
-
-  useEffect(() => {
-    sendRequest();
   }, [page]);
 
   const sendRequest = async () => {
