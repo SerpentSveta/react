@@ -4,8 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useCardsStore } from '../../store/useCardsStore';
+import { useSearchStore } from '../../store/useSearchStore';
 
-export function SearchResult({ results, page }: Props) {
+export function SearchResult({ page }: Props) {
   const navigate = useNavigate();
   const { detailsId } = useParams();
   const { isDarkTheme } = useContext(ThemeContext);
@@ -13,6 +14,8 @@ export function SearchResult({ results, page }: Props) {
   const selectCard = useCardsStore((state) => state.selectCard);
   const unSelectCard = useCardsStore((state) => state.unSelectCard);
   const allSelectedCards = useCardsStore((state) => state.allSelectedCards);
+
+  const results = useSearchStore((state) => state.results);
 
   if (results === null) {
     return null;

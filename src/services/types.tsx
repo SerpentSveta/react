@@ -6,19 +6,11 @@ export type Character = {
   image: string;
 };
 
-export type SearchState = {
-  name: string;
-  results: Character[] | null;
-  loading: boolean;
-  error: string | null;
-};
-
 export type ErrorSearchResult = {
   hasError: boolean;
 };
 
 export type Props = {
-  results: Character[] | null;
   page: string;
 };
 
@@ -26,6 +18,7 @@ export type ButtonProps = {
   onClick: () => void;
   children: string;
   style?: CSSProperties;
+  className?: string;
 };
 
 export type ErrorProps = {
@@ -66,4 +59,9 @@ export type CardsState = {
   selectCard: (id: number) => void;
   unSelectCard: (id: number) => void;
   unselectAllCards: () => void;
+};
+
+export type SearchState = {
+  results: CharacterDetails[] | null;
+  setResults: (results: CharacterDetails[] | null) => void;
 };
