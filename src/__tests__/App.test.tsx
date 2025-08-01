@@ -33,4 +33,18 @@ describe('App', () => {
     });
     expect(title).toBeInTheDocument();
   });
+
+  it('switch theme', async () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
+
+    const button = screen.getByRole('button', { name: /theme/i });
+    await userEvent.click(button);
+
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('main--dark');
+  });
 });
