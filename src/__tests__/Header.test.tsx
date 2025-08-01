@@ -14,15 +14,13 @@ describe('Header', () => {
     expect(headerLogo).toBeInTheDocument();
   });
 
-  it('Render header', () => {
+  it('Render theme switch button', () => {
     render(
       <MemoryRouter>
         <Header />
       </MemoryRouter>
     );
-    const headerTitle = screen.getByRole('heading', {
-      name: /rick and morty character search/i,
-    });
-    expect(headerTitle).toBeInTheDocument();
+    const switchButton = screen.getByRole('button');
+    expect(switchButton).toBeInTheDocument();
   });
 });

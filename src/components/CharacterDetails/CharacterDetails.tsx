@@ -4,6 +4,8 @@ import type { CharacterDetails } from '../../services/types';
 import { useState, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
+import { useContext } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 
 export function CharacterDetails() {
   const { detailsId, page } = useParams();
@@ -11,6 +13,8 @@ export function CharacterDetails() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { isDarkTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     sendRequest();
@@ -56,13 +60,37 @@ export function CharacterDetails() {
           src={charDetails.image}
           alt={charDetails.name}
         />
-        <p className="char-details-name">{charDetails.name}</p>
-        <p className="char-details-status">Status: {charDetails.status}</p>
-        <p className="char-details-species">Species: {charDetails.species}</p>
-        <p className="char-details-gender">Gender: {charDetails.gender}</p>
+        <p
+          className={
+            isDarkTheme ? 'char-details-name--dark' : 'char-details-name'
+          }
+        >
+          {charDetails.name}
+        </p>
+        <p
+          className={
+            isDarkTheme ? 'char-details-status--dark' : 'char-details-status'
+          }
+        >
+          Status: {charDetails.status}
+        </p>
+        <p
+          className={
+            isDarkTheme ? 'char-details-species--dark' : 'char-details-species'
+          }
+        >
+          Species: {charDetails.species}
+        </p>
+        <p
+          className={
+            isDarkTheme ? 'char-details-gender--dark' : 'char-details-gender'
+          }
+        >
+          Gender: {charDetails.gender}
+        </p>
         <Button
           onClick={() => {
-            navigate(`/${page}`);
+            navigate(`/page/${page}`);
           }}
         >
           Close

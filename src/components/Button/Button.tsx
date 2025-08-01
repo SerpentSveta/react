@@ -1,9 +1,9 @@
 import './Button.css';
 import type { ButtonProps } from '../../services/types';
 
-export function Button({ onClick, children }: ButtonProps) {
+export function Button({ onClick, children, className }: ButtonProps) {
   return (
-    <button className="button" onClick={onClick}>
+    <button className={`button ${className}`} onClick={onClick}>
       {children}
     </button>
   );

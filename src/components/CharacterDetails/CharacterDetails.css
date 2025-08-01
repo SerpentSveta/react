@@ -24,3 +24,10 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+.char-details-name--dark,
+.char-details-status--dark,
+.char-details-species--dark,
+.char-details-gender--dark {
+  color: #adb5bd;
+}

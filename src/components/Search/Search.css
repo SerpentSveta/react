@@ -3,7 +3,11 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 100px;
+}
+
+.title-search--dark {
+  color: #adb5bd;
 }
 
 .search-input {
@@ -11,6 +15,10 @@
   padding: 0.7rem 2rem;
   border-radius: 5px;
   border: 1px solid #d1e25f;
+}
+
+.search-input--dark {
+  background-color: #ecebe4;
 }
 
 .search-input:focus-visible {

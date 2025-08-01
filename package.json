@@ -17,7 +17,8 @@
     "eslint-plugin-react-compiler": "^19.0.0-beta-af1b7da-20250417",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.7.0"
+    "react-router-dom": "^7.7.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",
