@@ -14,6 +14,7 @@
     "coverage": "jest --coverage"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.84.1",
     "eslint-plugin-react-compiler": "^19.0.0-beta-af1b7da-20250417",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
