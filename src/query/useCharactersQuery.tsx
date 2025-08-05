@@ -5,13 +5,15 @@ export function useCharactersQuery(name: string, page: number) {
   return useQuery({
     queryKey: ['characters', name, page],
     queryFn: ({ signal }) => sendRequest(name, page, { signal }),
+    enabled: !!name && !!page,
   });
 }
 
 export function useCharactersDetailsQuery(id?: string) {
   return useQuery({
-    queryKey: ['characters', id],
+    queryKey: ['characters-details', id],
     queryFn: ({ signal }) =>
       sendRequestCharacterDetails(id as string, { signal }),
+    enabled: !!id,
   });
 }

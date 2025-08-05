@@ -8,7 +8,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App.tsx';
 
 const root = document.getElementById('root');
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: 1 * 60 * 1000 } },
+});
 
 if (!root) {
   throw new Error('Root not found');

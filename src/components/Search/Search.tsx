@@ -16,6 +16,7 @@ import { useCardsStore } from '../../store/useCardsStore';
 import { useSearchStore } from '../../store/useSearchStore';
 
 import { useCharactersQuery } from '../../query/useCharactersQuery';
+import { RefreshButton } from '../RefreshButton/RefreshButton';
 
 export function Search() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
@@ -99,6 +100,7 @@ export function Search() {
         onChange={(num: number) => navigate(`/page/${num}`)}
       />
       {cards > 0 && <Flyout />}
+      <RefreshButton />
     </section>
   );
 }
