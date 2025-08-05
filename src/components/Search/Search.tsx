@@ -51,7 +51,12 @@ export function Search() {
     return <Spinner />;
   }
 
-  if (error) return 'An error has occurred: ' + error.message;
+  if (error)
+    return (
+      <div className="error-message">
+        An error has occurred: {error.message}
+      </div>
+    );
 
   return (
     <section className="section-search">

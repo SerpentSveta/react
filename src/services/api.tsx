@@ -19,3 +19,20 @@ export const sendRequest = async (
 
   return data;
 };
+
+export const sendRequestCharacterDetails = async (
+  id: string,
+  { signal }: { signal: AbortSignal }
+) => {
+  const response = await fetch(`${BASE_URL}${id}`, {
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Download error: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
