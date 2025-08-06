@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { CharacterDetails } from '../components/CharacterDetails/CharacterDetails';
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 beforeEach(() => {
   (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -21,14 +22,18 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
+const queryClient = new QueryClient();
+
 describe('CharacterDetails component', () => {
   it('render all fields', async () => {
     render(
-      <MemoryRouter initialEntries={['/1/1']}>
-        <Routes>
-          <Route path="/:page/:detailsId" element={<CharacterDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={['/1/1']}>
+          <Routes>
+            <Route path="/:page/:detailsId" element={<CharacterDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     const img = await screen.findByRole('img', { name: /Morty Smith/i });
