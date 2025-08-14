@@ -5,7 +5,6 @@ export function useCharactersQuery(name: string, page: number) {
   return useQuery({
     queryKey: ['characters', name, page],
     queryFn: ({ signal }) => sendRequest(name, page, { signal }),
-    enabled: !!name && !!page,
   });
 }
 
