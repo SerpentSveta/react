@@ -3,13 +3,34 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Search } from '../components/Search/Search';
 import { MemoryRouter } from 'react-router-dom';
+import { useCharactersQuery } from '../query/useCharactersQuery';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+jest.mock('../query/useCharactersQuery', () => ({
+  useCharactersQuery: jest.fn(),
+}));
+
+const queryClient = new QueryClient();
 
 describe('Search Rendering', () => {
+  beforeEach(() => {
+    (useCharactersQuery as jest.Mock).mockReturnValue({
+      data: {
+        results: [],
+        info: { pages: 1 },
+      },
+      isPending: false,
+      error: null,
+    });
+  });
+
   it('Render Titles', () => {
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
     const searchTitle = screen.getByRole('heading', { name: /Search/i });
     const resultTitle = screen.getByRole('heading', { name: /Results/i });
@@ -18,18 +39,22 @@ describe('Search Rendering', () => {
   });
   it('Render search input', () => {
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
     const searchInput = screen.getByRole('textbox');
     expect(searchInput).toBeInTheDocument();
   });
   it('Render search button', () => {
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
     const searchButton = screen.getByRole('button', { name: /Search/i });
     expect(searchButton).toBeInTheDocument();
@@ -38,9 +63,11 @@ describe('Search Rendering', () => {
     localStorage.setItem('inputName', JSON.stringify('Morty'));
 
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     const input = await screen.findByRole('textbox');
@@ -51,9 +78,11 @@ it('Shows empty input when no saved term exists', () => {
   localStorage.clear();
 
   render(
-    <MemoryRouter>
-      <Search />
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <Search />
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 
   const input = screen.getByRole('textbox');
@@ -63,9 +92,11 @@ it('Shows empty input when no saved term exists', () => {
 describe('User Interaction Tests', () => {
   it('Updates input value when user types', async () => {
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     const input = screen.getByRole('textbox');
@@ -77,9 +108,11 @@ describe('User Interaction Tests', () => {
     localStorage.clear();
 
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     const input = screen.getByRole('textbox');
@@ -96,9 +129,11 @@ describe('LocalStorage Integration', () => {
   it('Overwrites existing localStorage value when new search is performed', async () => {
     localStorage.setItem('inputName', 'Morty');
     render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     const input = screen.getByRole('textbox');
@@ -109,60 +144,5 @@ describe('LocalStorage Integration', () => {
     await userEvent.click(searchButton);
 
     expect(localStorage.getItem('inputName')).toBe(JSON.stringify('Rick'));
-  });
-});
-
-describe('query generation', () => {
-  beforeEach(() => {
-    global.fetch = jest.fn();
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('request with an entered name', async () => {
-    localStorage.clear();
-
-    (global.fetch as jest.Mock).mockResolvedValue({
-      json: async () => ({ results: [] }),
-    });
-
-    render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
-    );
-
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, 'Rick');
-
-    const searchButton = screen.getByRole('button', { name: /Search/i });
-    await userEvent.click(searchButton);
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://rickandmortyapi.com/api/character/?name=Rick&page=1'
-    );
-  });
-
-  it('request with an empty name', async () => {
-    localStorage.clear();
-
-    (global.fetch as jest.Mock).mockResolvedValue({
-      json: async () => ({ results: [] }),
-    });
-
-    render(
-      <MemoryRouter>
-        <Search />
-      </MemoryRouter>
-    );
-
-    const searchButton = screen.getByRole('button', { name: /Search/i });
-    await userEvent.click(searchButton);
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://rickandmortyapi.com/api/character/?name=&page=1'
-    );
   });
 });

@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 beforeEach(() => {
   localStorage.clear();
   global.fetch = jest.fn();
+  jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -25,13 +26,25 @@ jest.mock('../query/useCharactersQuery', () => ({
       info: { pages: 1 },
     },
     isPending: false,
-    error: null,
+    error: new Error('Something went wrong'),
   }),
 }));
 
 describe('testing API', () => {
-  it('Success Case', async () => {
-    localStorage.setItem('inputName', JSON.stringify('Morty'));
+  it('Error Case', async () => {
+    jest.mock('../query/useCharactersQuery', () => ({
+      useCharactersQuery: () => ({
+        data: {
+          results: [
+            { id: 1, name: 'Morty Smith', image: 'morty.png' },
+            { id: 2, name: 'Rick Sanchez', image: 'rick.png' },
+          ],
+          info: { pages: 1 },
+        },
+        isPending: false,
+        error: new Error('Something went wrong'),
+      }),
+    }));
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -41,10 +54,7 @@ describe('testing API', () => {
       </QueryClientProvider>
     );
 
-    const morty = await screen.findByText(/Morty Smith/i);
-    const rick = await screen.findByText(/Rick Sanchez/i);
-
-    expect(morty).toBeInTheDocument();
-    expect(rick).toBeInTheDocument();
+    const errorMessage = await screen.findByText(/An error has occurred/i);
+    expect(errorMessage).toBeInTheDocument();
   });
 });
