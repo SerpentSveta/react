@@ -65,3 +65,7 @@ export type SearchState = {
   results: CharacterDetails[] | null;
   setResults: (results: CharacterDetails[] | null) => void;
 };
+
+export type SearchProps = {
+  initialPage?: number;
+};
