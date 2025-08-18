@@ -1,14 +1,13 @@
 import './SearchResult.css';
 import type { Props } from '../../services/types';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useContext, useCallback } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useCardsStore } from '../../store/useCardsStore';
 import { useSearchStore } from '../../store/useSearchStore';
 
 export function SearchResult({ page }: Props) {
-  const navigate = useNavigate();
-  const { detailsId } = useParams();
+  const router = useRouter();
   const { isDarkTheme } = useContext(ThemeContext);
 
   const selectCard = useCardsStore((state) => state.selectCard);
@@ -19,9 +18,9 @@ export function SearchResult({ page }: Props) {
 
   const handleNavigate = useCallback(
     (id: number) => {
-      navigate(`/page/${page}/${id}`);
+      router.push(`/page/${page}/${id}`);
     },
-    [navigate, page]
+    [router, page]
   );
 
   if (results === null) {
@@ -33,7 +32,7 @@ export function SearchResult({ page }: Props) {
   }
 
   return (
-    <ul className={`result-list ${!detailsId ? 'single-column' : ''}`}>
+    <ul className={`result-list`}>
       {results.map((char) => {
         const isChecked: boolean = allSelectedCards.includes(char.id);
 

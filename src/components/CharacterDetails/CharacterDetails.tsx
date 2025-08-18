@@ -1,16 +1,16 @@
 import './CharacterDetails.css';
-import { useNavigate, useParams } from 'react-router-dom';
 import type { CharacterDetails } from '../../services/types';
+import type { CharacterDetailsProps } from '../../services/types';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useCharactersDetailsQuery } from '../../query/useCharactersQuery';
 
-export function CharacterDetails() {
-  const { detailsId, page } = useParams();
-  const navigate = useNavigate();
-
+export function CharacterDetails({
+  detailsId,
+  onClose,
+}: CharacterDetailsProps) {
   const { isDarkTheme } = useContext(ThemeContext);
 
   const {
@@ -71,13 +71,7 @@ export function CharacterDetails() {
         >
           Gender: {charDetails.gender}
         </p>
-        <Button
-          onClick={() => {
-            navigate(`/page/${page}`);
-          }}
-        >
-          Close
-        </Button>
+        <Button onClick={onClose}>Close</Button>
       </div>
     </>
   );

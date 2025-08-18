@@ -6,10 +6,10 @@ import { SearchContent } from '../SearchContent/SearchContent';
 
 const queryClient = new QueryClient();
 
-export function Search({ initialPage }: { initialPage?: number }) {
+export function Search() {
   return (
     <QueryClientProvider client={queryClient}>
-      <SearchContent initialPage={initialPage} />
+      <SearchContent />
     </QueryClientProvider>
   );
 }

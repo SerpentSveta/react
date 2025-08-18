@@ -11,7 +11,7 @@ export type ErrorSearchResult = {
 };
 
 export type Props = {
-  page: string;
+  page: number;
 };
 
 export type ButtonProps = {
@@ -48,6 +48,11 @@ export type CharacterDetails = Character & {
   gender: string;
 };
 
+export type CharacterDetailsProps = {
+  detailsId: string;
+  onClose: () => void;
+};
+
 export type ThemeContextType = {
   isDarkTheme: boolean;
   toggleTheme: () => void;
@@ -64,8 +69,4 @@ export type CardsState = {
 export type SearchState = {
   results: CharacterDetails[] | null;
   setResults: (results: CharacterDetails[] | null) => void;
-};
-
-export type SearchProps = {
-  initialPage?: number;
 };

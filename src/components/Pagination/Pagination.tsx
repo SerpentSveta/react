@@ -7,7 +7,7 @@ export function Pagination({ count, page, onChange }: PaginationProps) {
     <div className="page-container">
       <Image
         className={`arrow ${page === 1 ? 'inactive' : ''}`}
-        src={'arrow_left.png'}
+        src={'/arrow_left.png'}
         alt="Arrow Left"
         width={32}
         height={32}
@@ -16,7 +16,7 @@ export function Pagination({ count, page, onChange }: PaginationProps) {
       <p className="number-page">{page}</p>
       <Image
         className={`arrow ${count === page ? 'inactive' : ''}`}
-        src={'arrow_right.png'}
+        src={'/arrow_right.png'}
         alt="Arrow Right"
         width={32}
         height={32}

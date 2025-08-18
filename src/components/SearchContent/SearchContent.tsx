@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 import { Button } from '../Button/Button';
 import { SearchResult } from '../SearchResult/SearchResult';
@@ -10,6 +10,7 @@ import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { Flyout } from '../Flyout/Flyout';
 import { Pagination } from '../Pagination/Pagination';
 import { RefreshButton } from '../RefreshButton/RefreshButton';
+import { CharacterDetails } from '../CharacterDetails/CharacterDetails';
 
 import { ThemeContext } from '../../context/ThemeContext';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -17,15 +18,17 @@ import { useCardsStore } from '../../store/useCardsStore';
 import { useSearchStore } from '../../store/useSearchStore';
 import { useCharactersQuery } from '../../query/useCharactersQuery';
 
-import type { SearchProps } from '../../services/types';
-
-export function SearchContent({ initialPage = 1 }: SearchProps) {
+export function SearchContent() {
   const [charName, setCharName] = useLocalStorage('inputName', '');
   const [inputValue, setInputValue] = useState(charName || '');
   const [quantityPages, setQuantityPages] = useState(1);
 
-  const currentPage = initialPage;
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  const detailsId = searchParams.get('detailsId');
+  const pageParam = searchParams.get('page');
+  const currentPage = pageParam ? Number(pageParam) : 1;
 
   const { isDarkTheme } = useContext(ThemeContext);
 
@@ -54,6 +57,13 @@ export function SearchContent({ initialPage = 1 }: SearchProps) {
       </div>
     );
 
+  function goToPage(num: number) {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(num));
+    router.push(`?${params.toString()}`);
+    setCharName(inputValue);
+  }
+
   return (
     <section className="section-search">
       <h1 className={isDarkTheme ? 'title-search--dark' : ''}>
@@ -68,26 +78,30 @@ export function SearchContent({ initialPage = 1 }: SearchProps) {
             isDarkTheme ? 'search-input search-input--dark' : 'search-input'
           }
         />
-        <Button
-          onClick={() => {
-            router.push(`/page/1`);
-            setCharName(inputValue.trim());
-          }}
-        >
-          Search
-        </Button>
+        <Button onClick={() => goToPage(1)}>Search</Button>
       </form>
       <h2 className={isDarkTheme ? 'title-search--dark' : ''}>Results</h2>
       {error && <p className="error-message">{error}</p>}
       <ErrorBoundary>
         <div className="master-detail">
-          <SearchResult page={currentPage.toString()} />
+          <SearchResult page={currentPage} />
+
+          {detailsId && (
+            <CharacterDetails
+              detailsId={detailsId}
+              onClose={() => {
+                const params = new URLSearchParams(searchParams);
+                params.delete('detailsId');
+                router.push(`?${params.toString()}`);
+              }}
+            />
+          )}
         </div>
       </ErrorBoundary>
       <Pagination
         count={quantityPages}
         page={currentPage}
-        onChange={(num: number) => router.push(`/page/${num}`)}
+        onChange={(num: number) => goToPage(num)}
       />
       {cards > 0 && <Flyout />}
       <RefreshButton />
