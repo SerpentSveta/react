@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { Button } from '../Button/Button';
 import { Modal } from '../Modal/Modal';
@@ -11,6 +11,23 @@ export function Header() {
   const [activeForm, setActiveForm] = useState<
     'uncontrolled' | 'controlled' | null
   >(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isShowing &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        toggle();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isShowing]);
 
   function openUncontrolledForm() {
     setActiveForm('uncontrolled');
@@ -26,7 +43,7 @@ export function Header() {
     <header className="header">
       <Button onClick={openUncontrolledForm}>Uncontrolled Form</Button>
       <Button onClick={openControlledForm}>Controlled Form</Button>
-      <Modal isShowing={isShowing} hide={toggle}>
+      <Modal isShowing={isShowing} hide={toggle} modalRef={modalRef}>
         {activeForm === 'uncontrolled' && <UncontrolledForm />}
         {activeForm === 'controlled' && <ControlledForm />}
       </Modal>

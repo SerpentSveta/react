@@ -11,4 +11,5 @@ export type ModalProps = {
   isShowing: boolean;
   hide: () => void;
   children: ReactNode;
+  modalRef: React.RefObject<HTMLDivElement | null>;
 };
