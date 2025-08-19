@@ -1,13 +1,10 @@
 import './App.css';
-import { Button } from './components/Button/Button';
+import { Header } from './components/Header/Header';
 
 function App() {
   return (
     <>
-      <header className="header">
-        <Button>Uncontrolled Form</Button>
-        <Button>Controlled Form</Button>
-      </header>
+      <Header />
     </>
   );
 }
