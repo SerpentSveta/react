@@ -31,7 +31,7 @@ export function Modal({ isShowing, hide, children, modalRef }: ModalProps) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div>{children}</div>
+              <div className="modal-body">{children}</div>
             </div>
           </div>
         </React.Fragment>,

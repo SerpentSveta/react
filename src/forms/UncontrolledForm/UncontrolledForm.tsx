@@ -1,3 +1,5 @@
+import '../forms.css';
+
 import { useCountryStore } from '../../store/useCountriesStore';
 import { useEffect } from 'react';
 import { countryList } from '../../data/country-list';
@@ -18,10 +20,10 @@ export function UncontrolledForm() {
 
   return (
     <>
-      <div>Uncontrolled Form</div>
+      <h2>Uncontrolled Form</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Name
+          Name:
           <input type="text" name="name" />
         </label>
         <label>
@@ -38,16 +40,16 @@ export function UncontrolledForm() {
         </label>
         <fieldset>
           <legend>Gender:</legend>
-          <div>
-            <input type="radio" name="gender" value="male" defaultChecked />
+          <div className="gender">
             <label htmlFor="male">Male</label>
+            <input type="radio" name="gender" value="male" defaultChecked />
           </div>
-          <div>
-            <input type="radio" name="gender" value="female" />
+          <div className="gender">
             <label htmlFor="female">Female</label>
+            <input type="radio" name="gender" value="female" />
           </div>
         </fieldset>
-        <div>
+        <div className="tnc">
           <input type="checkbox" id="tnc" name="tnc" />
           <label htmlFor="tnc">Accept Terms and Conditions agreement</label>
         </div>
@@ -62,6 +64,7 @@ export function UncontrolledForm() {
             list="country-list"
             name="country"
             value={selectedCountry ?? ''}
+            placeholder="Select country"
             onChange={(e) => setSelectedCountry(e.target.value)}
           />
           <datalist id="country-list">
@@ -70,7 +73,9 @@ export function UncontrolledForm() {
             ))}
           </datalist>
         </div>
-        <button type="submit">Submit</button>
+        <button className="button button-form" type="submit">
+          Submit
+        </button>
       </form>
     </>
   );

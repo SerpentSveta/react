@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 
 import { Button } from '../Button/Button';
 import { Modal } from '../Modal/Modal';
-import { UncontrolledForm } from '../UncontrolledForm/UncontrolledForm';
-import { ControlledForm } from '../ControlledForm/ControlledForm';
+import { UncontrolledForm } from '../../forms/UncontrolledForm/UncontrolledForm';
+import { ControlledForm } from '../../forms/ControlledForm/ControlledForm';
 import { useModal } from '../../hooks/useModal';
 
 export function Header() {
