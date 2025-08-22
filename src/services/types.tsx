@@ -13,3 +13,10 @@ export type ModalProps = {
   children: ReactNode;
   modalRef: React.RefObject<HTMLDivElement | null>;
 };
+
+export type CountryStore = {
+  countries: string[];
+  selectedCountry: string | null;
+  setCountries: (list: string[]) => void;
+  setSelectedCountry: (country: string) => void;
+};

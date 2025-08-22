@@ -7,8 +7,8 @@ import type { ModalProps } from '../../services/types';
 
 export function Modal({ isShowing, hide, children, modalRef }: ModalProps) {
   useEffect(() => {
-    const closeOnEscapeKey = (e: KeyboardEvent) =>
-      e.key === 'Escape' ? hide() : null;
+    const closeOnEscapeKey = (event: KeyboardEvent) =>
+      event.key === 'Escape' ? hide() : null;
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);
