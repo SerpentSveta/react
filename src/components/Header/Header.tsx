@@ -44,8 +44,10 @@ export function Header() {
       <Button onClick={openUncontrolledForm}>Uncontrolled Form</Button>
       <Button onClick={openControlledForm}>Controlled Form</Button>
       <Modal isShowing={isShowing} hide={toggle} modalRef={modalRef}>
-        {activeForm === 'uncontrolled' && <UncontrolledForm />}
-        {activeForm === 'controlled' && <ControlledForm />}
+        {activeForm === 'uncontrolled' && (
+          <UncontrolledForm onSuccess={toggle} />
+        )}
+        {activeForm === 'controlled' && <ControlledForm onSuccess={toggle} />}
       </Modal>
     </header>
   );

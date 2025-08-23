@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import type { CountryStore } from '../services/types';
+import { countryList } from '../data/country-list';
 
 export const useCountryStore = create<CountryStore>((set) => ({
-  countries: [],
-  selectedCountry: null,
-  setCountries: (list) => set({ countries: list }),
-  setSelectedCountry: (country) => set({ selectedCountry: country }),
+  countries: countryList,
+  setCountries: (countries) => set({ countries }),
 }));

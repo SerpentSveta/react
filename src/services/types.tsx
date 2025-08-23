@@ -16,7 +16,5 @@ export type ModalProps = {
 
 export type CountryStore = {
   countries: string[];
-  selectedCountry: string | null;
   setCountries: (list: string[]) => void;
-  setSelectedCountry: (country: string) => void;
 };
