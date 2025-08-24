@@ -1,0 +1,46 @@
+.main {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 50px;
+}
+
+.forms-wrapper {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-wrapper {
+  flex: 1;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 25px;
+  justify-content: start;
+  padding: 10px;
+  border: 4px solid #ea580c;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+.form-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-between;
+}
