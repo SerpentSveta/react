@@ -44,3 +44,8 @@ p {
   gap: 15px;
   justify-content: space-between;
 }
+
+.form-item.bordered {
+  border-color: red;
+  background-color: #ffecec;
+}
