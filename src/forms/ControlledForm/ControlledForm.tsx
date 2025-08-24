@@ -3,6 +3,7 @@ import '../forms.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCountryStore } from '../../store/useCountriesStore';
+import { useFormStore } from '../../store/useFormStore';
 import { useForm } from 'react-hook-form';
 
 type ControlledFormProps = {
@@ -11,6 +12,7 @@ type ControlledFormProps = {
 
 export const ControlledForm = ({ onSuccess }: ControlledFormProps) => {
   const { countries } = useCountryStore();
+  const setForm2 = useFormStore((state) => state.setForm2);
 
   const formShema = z
     .object({
@@ -74,8 +76,25 @@ export const ControlledForm = ({ onSuccess }: ControlledFormProps) => {
   });
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
-    onSuccess();
+    const file = data.picture;
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setForm2({
+          ...data,
+          picture: reader.result as string,
+        });
+        onSuccess();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setForm2({
+        ...data,
+        picture: '',
+      });
+      onSuccess();
+    }
   };
 
   return (
