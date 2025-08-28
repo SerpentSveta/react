@@ -1,3 +1,5 @@
+import './DataTable.css';
+
 import type { DataValues } from '../../services/types';
 import { useState, useEffect } from 'react';
 import { Spinner } from '../Spinner/Spinner';
@@ -31,7 +33,8 @@ function DataTable() {
 
         setData(lastYearData);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -43,7 +46,7 @@ function DataTable() {
   }
 
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           <th>Country</th>
