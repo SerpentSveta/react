@@ -1,14 +1,7 @@
 export type DataValues = {
-  [country: string]: CountryData;
-};
-
-export type CountryData = {
+  country: string;
   iso_code: string;
-  data: [DataByYear];
-};
-
-export type DataByYear = {
-  year: number | null;
+  year: number;
   population: number | null;
   co2: number | null;
   co2_per_capita: number | null;

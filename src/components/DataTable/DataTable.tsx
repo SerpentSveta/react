@@ -1,43 +1,73 @@
 import type { DataValues } from '../../services/types';
 import { useState, useEffect } from 'react';
+import { Spinner } from '../Spinner/Spinner';
 
-export function DataTable() {
-  const [data, setData] = useState<DataValues | null>(null);
+function DataTable() {
+  const [data, setData] = useState<DataValues[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
-      'https://github.com/SerpentSveta/data-performance/blob/main/owid-co2-data.json?raw=true'
+      'https://raw.githubusercontent.com/SerpentSveta/data-performance/main/owid-co2-data.json'
     )
       .then((res) => res.json())
-      .then((json) => setData(json));
+      .then((json: any) => {
+        const lastYearData: DataValues[] = Object.entries(json).map(
+          ([country, countryData]: any) => {
+            const lastYear = countryData.data.reduce((acc: any, curr: any) =>
+              curr.year > acc.year ? curr : acc
+            );
+
+            return {
+              country,
+              iso_code: countryData.iso_code ?? 'N/A',
+              year: lastYear.year,
+              population: lastYear.population ?? null,
+              co2: lastYear.co2 ?? null,
+              co2_per_capita: lastYear.co2_per_capita ?? null,
+            };
+          }
+        );
+
+        setData(lastYearData);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!data) {
+    return <div>Data upload error</div>;
+  }
 
   return (
     <table>
       <thead>
         <tr>
           <th>Country</th>
+          <th>ISO</th>
           <th>Year</th>
           <th>Population</th>
-          <th>ISO</th>
           <th>CO₂</th>
           <th>CO₂ per capita</th>
         </tr>
       </thead>
       <tbody>
-        {data &&
-          Object.entries(data).map(([country, info]) =>
-            info.data.map((item) => (
-              <tr key={`${country}-${item.year}`}>
-                <td>{country}</td>
-                <td>{item.year ? item.year : 'N/A'}</td>
-                <td>{item.population}</td>
-                <td>{item.co2}</td>
-                <td>{item.co2_per_capita}</td>
-              </tr>
-            ))
-          )}
+        {data.map((info, index) => (
+          <tr key={index}>
+            <td>{info.country}</td>
+            <td>{info.iso_code ?? 'N/A'}</td>
+            <td>{info.year}</td>
+            <td>{info.population ?? 'N/A'}</td>
+            <td>{info.co2 ?? 'N/A'}</td>
+            <td>{info.co2_per_capita ?? 'N/A'}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
 }
+
+export default DataTable;
