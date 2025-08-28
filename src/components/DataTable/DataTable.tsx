@@ -46,30 +46,32 @@ function DataTable() {
   }
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Country</th>
-          <th>ISO</th>
-          <th>Year</th>
-          <th>Population</th>
-          <th>CO₂</th>
-          <th>CO₂ per capita</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((info, index) => (
-          <tr key={index}>
-            <td>{info.country}</td>
-            <td>{info.iso_code ?? 'N/A'}</td>
-            <td>{info.year}</td>
-            <td>{info.population ?? 'N/A'}</td>
-            <td>{info.co2 ?? 'N/A'}</td>
-            <td>{info.co2_per_capita ?? 'N/A'}</td>
+    <div className="main-wrapper">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>ISO</th>
+            <th>Year</th>
+            <th>Population</th>
+            <th>CO₂</th>
+            <th>CO₂ per capita</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((info, index) => (
+            <tr key={index}>
+              <td>{info.country}</td>
+              <td>{info.iso_code ?? 'N/A'}</td>
+              <td>{info.year}</td>
+              <td>{info.population ?? 'N/A'}</td>
+              <td>{info.co2 ?? 'N/A'}</td>
+              <td>{info.co2_per_capita ?? 'N/A'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
