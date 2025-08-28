@@ -3,6 +3,7 @@ import './Header.css';
 import { useRef } from 'react';
 import { useModal } from '../../hooks/useModal';
 import { Modal } from '../Modal/Modal';
+import { AddColumns } from '../AddColumns/AddRows';
 
 export function Header() {
   const { isShowing, toggle } = useModal();
@@ -35,7 +36,7 @@ export function Header() {
         </button>
       </div>
       <Modal isShowing={isShowing} hide={toggle} modalRef={modalRef}>
-        children
+        <AddColumns />
       </Modal>
     </header>
   );

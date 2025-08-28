@@ -65,3 +65,14 @@ button {
   background: #247ba0;
   color: #fff;
 }
+
+.input-wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+[type='checkbox'] {
+  margin-top: 4px;
+}
