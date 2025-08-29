@@ -1,6 +1,12 @@
+import { Button } from '../Button/Button';
+
 export function AddColumns() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+  }
+
+  function handleClick() {
+    console.log('Click');
   }
 
   return (
@@ -29,6 +35,9 @@ export function AddColumns() {
         />
         <label htmlFor="oil_co2_per_capita">oil_co2_per_capita</label>
       </div>
+      <Button className="button button-in-modal" onClick={handleClick}>
+        Save
+      </Button>
     </form>
   );
 }

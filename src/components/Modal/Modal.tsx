@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import type { ModalProps } from '../../services/types';
+import { Button } from '../Button/Button';
 
 export function Modal({ isShowing, hide, children, modalRef }: ModalProps) {
   useEffect(() => {
@@ -22,14 +23,9 @@ export function Modal({ isShowing, hide, children, modalRef }: ModalProps) {
           <div className="modal-wrapper" aria-modal tabIndex={-1} role="dialog">
             <div className="modal" ref={modalRef}>
               <div className="modal-header">
-                <button
-                  type="button"
-                  className="modal-close-button"
-                  aria-label="Close"
-                  onClick={hide}
-                >
+                <Button className="modal-close-button" onClick={hide}>
                   <span aria-hidden="true">&times;</span>
-                </button>
+                </Button>
               </div>
               <div className="modal-body">{children}</div>
             </div>

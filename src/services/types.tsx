@@ -15,3 +15,9 @@ export type ModalProps = {
   children: ReactNode;
   modalRef: React.RefObject<HTMLDivElement | null>;
 };
+
+export type ButtonProps = {
+  onClick: () => void;
+  children: ReactNode;
+  className?: string;
+};

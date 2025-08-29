@@ -23,7 +23,7 @@
 
 .modal {
   z-index: 100;
-  background: white;
+  background: #4f95da;
   position: relative;
   margin: 1.75rem auto;
   border-radius: 3px;
@@ -66,6 +66,10 @@ button {
   color: #fff;
 }
 
+.button-in-modal {
+  align-self: center;
+}
+
 .input-wrapper {
   display: flex;
   justify-content: start;
@@ -75,4 +79,10 @@ button {
 
 [type='checkbox'] {
   margin-top: 4px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
