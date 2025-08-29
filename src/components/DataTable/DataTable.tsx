@@ -3,10 +3,15 @@ import './DataTable.css';
 import type { DataValues } from '../../services/types';
 import { useState, useEffect } from 'react';
 import { Spinner } from '../Spinner/Spinner';
+import { useTableStore } from '../../store/useTableStore';
 
 function DataTable() {
   const [data, setData] = useState<DataValues[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const baseColumns = useTableStore((state) => state.baseColumns);
+  const optionalColumns = useTableStore((state) => state.optionalColumns);
+  const columns = [...baseColumns, ...optionalColumns];
 
   useEffect(() => {
     fetch(
@@ -27,6 +32,10 @@ function DataTable() {
               population: lastYear.population ?? null,
               co2: lastYear.co2 ?? null,
               co2_per_capita: lastYear.co2_per_capita ?? null,
+              methane: lastYear.methane ?? null,
+              oil_co2: lastYear.oil_co2 ?? null,
+              methane_per_capita: lastYear.methane_per_capita ?? null,
+              oil_co2_per_capita: lastYear.oil_co2_per_capita ?? null,
             };
           }
         );
@@ -50,23 +59,17 @@ function DataTable() {
       <table className="table">
         <thead>
           <tr>
-            <th>Country</th>
-            <th>ISO</th>
-            <th>Year</th>
-            <th>Population</th>
-            <th>CO₂</th>
-            <th>CO₂ per capita</th>
+            {columns.map((col) => (
+              <th key={col}>{col}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((info, index) => (
+          {data.map((row, index) => (
             <tr key={index}>
-              <td>{info.country}</td>
-              <td>{info.iso_code ?? 'N/A'}</td>
-              <td>{info.year}</td>
-              <td>{info.population ?? 'N/A'}</td>
-              <td>{info.co2 ?? 'N/A'}</td>
-              <td>{info.co2_per_capita ?? 'N/A'}</td>
+              {columns.map((col) => (
+                <td key={col}>{row[col as keyof DataValues] ?? 'N/A'}</td>
+              ))}
             </tr>
           ))}
         </tbody>

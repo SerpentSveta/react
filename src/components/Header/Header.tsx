@@ -22,7 +22,7 @@ export function Header() {
         </Button>
       </div>
       <Modal isShowing={isShowing} hide={toggle} modalRef={modalRef}>
-        <AddColumns />
+        <AddColumns hide={toggle} />
       </Modal>
     </header>
   );

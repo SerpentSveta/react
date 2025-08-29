@@ -20,4 +20,9 @@ export type ButtonProps = {
   onClick: () => void;
   children: ReactNode;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
+};
+
+export type AddColumnsProps = {
+  hide: () => void;
 };
