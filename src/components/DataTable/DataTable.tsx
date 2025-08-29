@@ -11,7 +11,11 @@ function DataTable() {
 
   const baseColumns = useTableStore((state) => state.baseColumns);
   const optionalColumns = useTableStore((state) => state.optionalColumns);
+  const query = useTableStore((state) => state.query);
   const columns = [...baseColumns, ...optionalColumns];
+  const filteredData = data.filter((row) =>
+    query ? row.country.toLowerCase().includes(query.toLowerCase()) : true
+  );
 
   useEffect(() => {
     fetch(
@@ -65,7 +69,7 @@ function DataTable() {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {filteredData.map((row, index) => (
             <tr key={index}>
               {columns.map((col) => (
                 <td key={col}>{row[col as keyof DataValues] ?? 'N/A'}</td>

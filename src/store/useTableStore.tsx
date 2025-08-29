@@ -3,6 +3,8 @@ import { create } from 'zustand';
 interface TableState {
   baseColumns: string[];
   optionalColumns: string[];
+  query: string;
+  setQuery: (q: string) => void;
   toggleColumn: (col: string) => void;
 }
 
@@ -16,6 +18,8 @@ export const useTableStore = create<TableState>()((set) => ({
     'co2_per_capita',
   ],
   optionalColumns: [],
+  query: '',
+  setQuery: (q) => set({ query: q }),
   toggleColumn: (col) =>
     set((state) => {
       const alreadySelected = state.optionalColumns.includes(col);

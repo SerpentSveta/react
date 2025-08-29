@@ -3,6 +3,12 @@
   background-color: #4f95da;
 }
 
+.header > .main-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .button {
   position: relative;
   width: 180px;
@@ -38,4 +44,16 @@ svg {
   color: white;
   font-size: 18px;
   font-weight: 100;
+}
+
+input {
+  padding: 8px 16px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  color: #99a3ba;
+  border: 1px solid #cdd9ed;
+  background: #fff;
+  transition: border 0.3s ease;
 }
