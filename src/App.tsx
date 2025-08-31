@@ -7,12 +7,20 @@ const DataTable = lazy(() => import('./components/DataTable/DataTable'));
 
 function App() {
   return (
-    <>
+    <div className="app">
       <Header />
-      <Suspense fallback={<Spinner />}>
-        <DataTable />
-      </Suspense>
-    </>
+      <main className="main-content">
+        <Suspense
+          fallback={
+            <div className="spinner-wrapper">
+              <Spinner />
+            </div>
+          }
+        >
+          <DataTable />
+        </Suspense>
+      </main>
+    </div>
   );
 }
 
